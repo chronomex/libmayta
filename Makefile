@@ -55,13 +55,19 @@ OPT=-O3
 endif
 
 
-all: $(BUILD)/libbloom.$(SO) $(BUILD)/test-libbloom
+all: $(BUILD)/libbloom.$(SO) $(BUILD)/test-libbloom $(BUILD)/test-libmayta
 
 $(BUILD)/libbloom.$(SO): $(BUILD)/murmurhash2.o $(BUILD)/bloom.o
 	(cd $(BUILD) && $(CC) bloom.o murmurhash2.o -shared $(LIB) $(MAC) -o libbloom.$(SO))
 
+$(BUILD)/libmayta.$(SO): $(BUILD)/murmurhash2.o $(BUILD)/bloom.o $(BUILD)/mayta.o
+	(cd $(BUILD) && $(CC) mayta.o bloom.o murmurhash2.o -shared $(LIB) $(MAC) -o libmayta.$(SO))
+
 $(BUILD)/test-libbloom: $(BUILD)/libbloom.$(SO) $(BUILD)/test.o
 	(cd $(BUILD) && $(CC) test.o -L$(BUILD) $(RPATH) -lbloom -o test-libbloom)
+
+$(BUILD)/test-libmayta: $(BUILD)/libmayta.$(SO) $(BUILD)/libbloom.$(SO) $(BUILD)/main.o
+	(cd $(BUILD) && $(CC) main.o -L$(BUILD) $(RPATH) -lmayta -o test-libmayta)
 
 $(BUILD)/%.o: %.c
 	mkdir -p $(BUILD)
@@ -77,7 +83,7 @@ clean:
 lint:
 	lint -x -errfmt=simple $(INC) $(LIB) *.c murmur2/*.c
 
-test: $(BUILD)/test-libbloom
+test: $(BUILD)/test-libbloom $(BUILD)/test-libmayta
 	$(BUILD)/test-libbloom
 
 gcov:
