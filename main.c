@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 		if (getline(&line, &len, stdin) == -1) break;
 
 		ber = mayta_store(mayta, sizeof(long int), (void*) &nr, len, line);
-//		printf("\nkey = %d, berr = %d\n", nr, ber);
+		printf("berr = %d\t", ber);
 
 		mayta_get(mayta, sizeof(long int), (void*) &nr, len, &data);
 		data[255] = 0; // null-terminate it so we don't overrun on print

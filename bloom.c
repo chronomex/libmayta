@@ -61,7 +61,6 @@ static int bloom_check_add(struct bloom * bloom,
   return 0;
 }
 
-
 int bloom_init(struct bloom * bloom, int entries, double error)
 {
   bloom->ready = 0;

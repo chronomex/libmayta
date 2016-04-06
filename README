@@ -1,7 +1,8 @@
 
 Introduction
 ------------
-This is libbloom, a simple and small bloom filter implementation in C.
+This is libmayta, a probabilistic data storage structure implementation in C.
+
 
 If you are reading this you probably already know about bloom filters
 and why you might use one. If not, the wikipedia article is a good intro:

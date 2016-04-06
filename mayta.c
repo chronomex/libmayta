@@ -13,16 +13,21 @@ int mayta_init(struct mayta** mayta, size_t bytes, int entries, double error)
 {
 	struct mayta* m;
 	int bit;
+	size_t total = 0;
 
-	printf("Allocating a %d bit lossy array...\n", (int)bytes*8);
+	printf("Allocating a %d bit lossy array... ", (int)bytes*8);
 
+	total +=   sizeof(struct mayta) + (8 * bytes * sizeof(struct bloom*));
 	m = calloc(sizeof(struct mayta) + (8 * bytes * sizeof(struct bloom*)), 1);
 	m->bits = bytes * 8;
 
 	for (bit = 0; bit < m->bits; bit++) {
 		m->d[bit] = calloc(sizeof(struct bloom), 1);
 		bloom_init(m->d[bit], entries, error);
+		total += m->d[bit]->bytes;
 	}
+
+	printf("%d bytes\n", (int) total);
 	*mayta = m;
 	return 0;
 }

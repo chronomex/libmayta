@@ -28,7 +28,7 @@ INC=-I$(TOP) -I$(TOP)/murmur2
 LIB=-lm
 CC=gcc -Wall ${OPT} ${MM} -std=c99 -fPIC
 
-ifeq ($(MM),)
+ifeq ($(MM),32)
 MM=-m32
 endif
 
